@@ -1,14 +1,4 @@
 # Fitting Poisson  distribution
-# Aim : 
-
-To fit poisson distribution for the arrival of objects per minute from the feeder
-
-# Software required :  
-
-Python and Visual component tool
-
-# Theory:
-
 The Poisson distribution is the discrete probability distribution of the number of events occurring in a given time period, given the average number of times the event occurs over that time period.
 
 ![image](https://user-images.githubusercontent.com/104613195/166248326-fd042076-8b0b-40c4-8b11-1d8e8fcb74db.png)
@@ -56,3 +46,28 @@ E=[]
 xi=[]
 print("X P(X=x) Obs.Fr Exp.Fr xi")
 print("--------------------------")
+for x in range(M+1):
+    p.append(math.exp(-mean)*mean**x/math.factorial(x))
+    E.append(p[x]*Sff)
+    xi.append((f[x]-E[x])**2/E[x])
+    print("%2.2f %2.3f %4.2f %3.2f %3.2f"%(x,p[x],f[x],E[x],xi[x]))
+print("--------------------------")
+cal_chi2_sq=np.sum(xi)
+print(f"Calculated value of Chi square is {cal_chi2_sq:.2f}")
+table_chi2=scipy.stats.chi2.ppf(1-.01,df=M)
+print(f"Table value of chi square at 1 level is {table_chi2:.2f}")
+if cal_chi2_sq<table_chi2:
+    print("The given data can be fitted in poisson Distribution at 1% LOS")
+else:
+    print("The given data cannot be fitted in Poisson Distribution at 1% LOS")
+```
+
+# Output : 
+
+<img width="1703" height="359" alt="Screenshot 2026-09-02 101942" src="https://github.com/user-attachments/assets/23455032-1c6a-451e-a068-cae2d845432f" />
+
+
+# Results
+
+The Poisson distribution is fitted for the objects arrived from feeder per minute and the data is tested using Chi-square test. 
+ 
